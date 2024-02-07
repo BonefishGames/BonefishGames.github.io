@@ -1,2 +1,80 @@
-Bonefish Games
-Website is on building...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #222222;
+    }
+    #main-image {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    #thumbnails {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .thumbnail {
+      width: 120px;
+      height:  67px;
+      margin: 3px;
+      cursor: pointer;
+    }
+    #description{
+    	width: 80%;
+    	color: #FFFFFF;
+    	font-size: 24px;
+    }
+  </style>
+  <title>Image Gallery</title>
+</head>
+<body>
+  <img id="main-image" src="pics/main.webp" alt="Main Image">
+  <div id="thumbnails">
+    <img class="thumbnail" src="pics/main.webp">
+    <img class="thumbnail" src="pics/2.webp">
+    <img class="thumbnail" src="pics/3.webp">
+    <img class="thumbnail" src="pics/4.webp">
+    <img class="thumbnail" src="pics/6.webp">
+    <img class="thumbnail" src="pics/7.webp">
+    <img class="thumbnail" src="pics/8.webp">
+    <img class="thumbnail" src="pics/10.webp">
+    <img class="thumbnail" src="pics/12.webp">
+    <img class="thumbnail" src="pics/zzz.webp">
+  </div>
+  <div id="description">
+	<p>Miracle Corp. is a metagame and a Metroidvania game. In the story, you will play a mysterious retro game developed by Miracle Corp., guided by an AI tour guide. Uncover the hidden truths behind the game. There are many bugs in this game. One of these bugs transforms the player into a monster skeleton instead of the main character.
+</p>
+<p><b>Features:</b></p>
+<ul>
+<li>Retro Black-and-White Pixel Art: Enjoy smooth animations in a nostalgic visual style.</li>
+<li>Challenging Levels and Satisfying Combat: Conquer difficult stages and engage in fluid battles.</li>
+<li>Unique Skeleton Mechanics: Players with skeletal bodies can exploit skull-related abilities, including decapitation, resurrection, and body swapping.</li>
+<li>Diverse Combat Techniques and Magic: Engage in fun and strategic battles.</li>
+<li>Equipment, Weapons, and Character Growth System: Explore and evolve your character.</li>
+<li>Sandbox Elements: Between battles, indulge in activities like farming, alchemy, and trading.</li>
+<li>Epic Boss Battles: Sharpen your skills and devise clever strategies.</li>
+<li>Challenging Platforming Levels: Satisfy your desire for a tough platforming experience.</li>
+<li>Mini Programming Game: Players must fix bugs in this retro game.</li>
+<li>Branching Storylines from Mid-Game Onward: Your choices matter!</li>
+</ul>
+</div>
+  <script>
+    const mainImage = document.getElementById('main-image');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', () => {
+        mainImage.src = thumbnail.src;
+      });
+    });
+  </script>
+</body>
+</html>
