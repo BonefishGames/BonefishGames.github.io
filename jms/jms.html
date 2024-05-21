@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LPQ JMS Demo</title>
+<style>
+  #imageA {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #imageB {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #imageC {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #imageD {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #imageE {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+  .platform {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border: 3px solid black;
+    text-align: center;
+    line-height: 150px;
+    vertical-align: top;
+    font-weight: bold;
+  }
+  .platform-empty {
+    background-color: #eee;
+  }
+  .platform-A {
+    background-color: #faa;
+    background-image: url('A.png');
+    background-size: cover;
+  }
+   .platform-B {
+    background-color: #afa;
+    background-image: url('B.png');
+    background-size: cover;
+  }
+   .platform-C {
+    background-color: #aaf;
+    background-image: url('C.png');
+    background-size: cover;
+  }
+   .platform-D {
+    background-color: #ffa;
+    background-image: url('D.gif');
+    background-size: cover;
+  }
+   .platform-E {
+    background-color: #aff;
+    background-image: url('E.gif');
+    background-size: cover;
+  }
+</style>
+</head>
+<body>
+<!-- <p style="font-size: 2em">LPQ JMS</p> -->
+<div id="platform1" class="platform platform-empty"></div>
+<div id="platform2" class="platform platform-empty"></div>
+<br>
+<div id="platform3" class="platform platform-empty"></div>
+<div id="platform4" class="platform platform-empty"></div>
+<div id="platform5" class="platform platform-empty"></div>
+<br>
+<div id="platform6" class="platform platform-empty"></div>
+<div id="platform7" class="platform platform-empty"></div>
+<div id="platform8" class="platform platform-empty"></div>
+<div id="platform9" class="platform platform-empty"></div>
+
+<img id="imageA" style="" src="A.png" alt="A" width="150" >
+<img id="imageB" src="B.png" alt="B" width="150" >
+<img id="imageC" src="C.png" alt="C" width="100" >
+<img id="imageD" src="D.gif" alt="D" width="150" >
+<img id="imageE" src="E.gif" alt="E" width="130" >
+<p>
+<p id="stepText" style="font-size: 2em;">Step: 0</p>
+<button onclick="onReset()" style="width: 100px; height: 50px; font-size: 2em; margin-left: 200px">Reset</button>
+<button onclick="onPrev()" style="width: 100px; height: 50px; font-size: 2em">Prev</button>
+<button onclick="onNext()" style="width: 100px; height: 50px; font-size: 2em">Next</button>
+</p>
+<script>
+// 初始化人物位置
+const peoplePositions = {
+  A: null,
+  B: null,
+  C: null,
+  D: null,
+  E: null
+};
+ // 缓动函数
+ function easeInOutQuad(t, b, c, d) {
+            t /= d/2;
+            if (t < 1) return c/2*t*t + b;
+            t--;
+            return -c/2 * (t*(t-2) - 1) + b;
+        }
+
+        // 移动图片的函数
+        function moveImageTo(imageId, x, y, duration) {
+            const image = document.getElementById(imageId);
+            const startX = parseInt(image.style.left || 0);
+            const startY = parseInt(image.style.top || 0);
+            const startTime = Date.now();
+
+            function animate() {
+                const currentTime = Date.now();
+                const elapsed = currentTime - startTime;
+                const newX = easeInOutQuad(elapsed, startX, x - startX, duration);
+                const newY = easeInOutQuad(elapsed, startY, y - startY, duration);
+
+                image.style.left = newX + 'px';
+                image.style.top = newY + 'px';
+
+                if (elapsed < duration) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+// 更新人物位置的函数
+function movePerson0(person, platformId) {
+  // 当前平台元素
+  const currentPlatform = document.getElementById(peoplePositions[person]);
+  // 新平台元素
+  const newPlatform = document.getElementById(platformId);
+
+  // 如果人物已经在平台上，则先将其从当前平台移除
+  if (currentPlatform) {
+    currentPlatform.classList.remove('platform-A');
+    currentPlatform.classList.remove('platform-B');
+    currentPlatform.classList.remove('platform-C');
+    currentPlatform.classList.remove('platform-D');
+    currentPlatform.classList.remove('platform-E');
+    // currentPlatform.textContent = currentPlatform.id.substr(8, 1);
+  }
+  
+  // 更新人物位置
+  peoplePositions[person] = platformId;
+
+  // 如果新平台存在，将人物放置到新平台上
+  if (newPlatform) {
+ 	switch(person)
+ 	{
+ 		case 'A':
+    			newPlatform.classList.add('platform-A');
+    			break;
+ 		
+ 		case 'B':
+    			newPlatform.classList.add('platform-B');
+    			break;
+ 		case 'C':
+    			newPlatform.classList.add('platform-C');
+    			break;
+
+ 		case 'D':
+    			newPlatform.classList.add('platform-D');
+    			break;
+
+ 		case 'E':
+    			newPlatform.classList.add('platform-E');
+    			break;
+ 	}
+    // newPlatform.textContent = person;
+  }
+}
+function movePerson(person, platformId){
+  var x = 0;
+  var y = 0;
+  var duration = 500;
+  switch(platformId)
+  {
+    case 'platform1': x=0;y=0;break;
+    case 'platform2': x=1;y=0;break;
+    case 'platform3': x=0;y=1;break;
+    case 'platform4': x=1;y=1;break;
+    case 'platform5': x=2;y=1;break;
+    case 'platform6': x=0;y=2;break;
+    case 'platform7': x=1;y=2;break;
+    case 'platform8': x=2;y=2;break;
+    case 'platform9': x=3;y=2;break;
+  }
+  x*=150;
+  y*=150;
+  x+=30;
+  y+=30;
+  moveImageTo("image"+person,x,y,duration )
+}
+function getPlatformName(index)
+{
+  switch(index)
+  {
+    case '1': return 'platform1'
+    case '2': return 'platform3'
+    case '3': return 'platform6'
+    case '4': return 'platform7'
+    case '5': return 'platform4'
+    case '6': return 'platform8'
+    case '7': return 'platform2'
+    case '8': return 'platform5'
+    case '9': return 'platform9'
+    // default: alert("error:"+index)
+  }
+}
+function showStep(s){
+  document.getElementById("stepText").innerHTML = "Step: "+ s
+  var state = states[s]
+  movePerson('A', getPlatformName(state[0]))
+  movePerson('B', getPlatformName(state[1]))
+  movePerson('C', getPlatformName(state[2]))
+  movePerson('D', getPlatformName(state[3]))
+  movePerson('E', getPlatformName(state[4]))
+  
+}
+function onNext(){
+  if(step < states.length -1)
+  {
+    step+=1;
+  }
+  showStep(step);
+  
+}function onPrev(){
+  if(step >0)
+  {
+    step-=1;
+  }
+  showStep(step);
+  
+}
+function onReset(){
+  step = 0
+  showStep(step);
+  
+}
+// API：移动人物
+window.movePerson = movePerson;
+
+// 示例：将人物A移动到平台1
+movePerson('A', 'platform1');
+// 将人物B移动到平台2
+movePerson('B', 'platform2');
+// 将人物C移动到平台3
+movePerson('C', 'platform3');
+movePerson('D', 'platform4');
+movePerson('E', 'platform5');
+movePerson('E', 'platform9');
+movePerson('C', 'platform5');
+
+const states = [
+  '12345','12346','12347','12348','12349','12356','12357','12358','12359',
+'12367','12368','12369','12378', '12379','12389',
+'12456','12457','12458','12459','12467','12468','12469','12478', '12479','12489',
+'12567','12568','12569','12578', '12579','12589',
+'12678','12679','12689', '12789',
+'13456','23456', '13457','23457','13458','23458','13459','23459','13467','23467',
+'13468','23468','13469','23469','13478','23478', '13479','23479','13489','23489',
+'13567','23567','13568','23568','13569','23569','13578','23578', '13579','23579','13589','23589',
+'13678','23678','13679','23679','13689','23689', '13789','23789',
+'14567','24567','34567','14568','24568','34568','14569','24569','34569','14578','24578','34578', '14579','24579','34579','14589','24589','34589',
+'14678','24678','34678','14679','24679','34679','14689','24689','34689', '14789','24789','34789',
+'15678', '25678','35678','45678','15679','25679','35679','45679','15689','25689','35689','45689', '15789','25789','35789','45789',
+'16789','26789','36789','46789','56789'
+
+]
+// alert(states.length)
+var step = 0
+showStep(0)
+
+</script>
+</body>
+</html>
